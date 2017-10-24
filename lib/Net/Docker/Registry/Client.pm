@@ -35,7 +35,7 @@ sub repositories {
 sub _get {
   my ($self, $url) = @_;
   my $port = ($self->{port}) ? ":$self->{port}" : '';
-  my $uri = $self->{proto} . "://$self->{host}$port$url";
+  my $uri = ( $self->{proto} || 'https' ) . "://$self->{host}$port$url";
   my $req = HTTP::Request->new(GET => $uri);
   $req->authorization_basic($self->{user}, $self->{pass});
 
