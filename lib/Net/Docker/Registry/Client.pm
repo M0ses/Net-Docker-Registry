@@ -14,7 +14,7 @@ sub new { my ($class,%opts) = @_; return bless \%opts, $class }
 sub catalog {
   my ($self) = @_;
   my $api_url = '/v2/_catalog';
-  return $self->_get("/v2/_catalog");
+  return $self->_get("/v2/_catalog", 'repositories');
 }
 
 sub manifests {
@@ -24,7 +24,7 @@ sub manifests {
 
 sub list_tags {
   my ($self, $name) = @_;
-  return $self->_get("/v2/$name/tags/list")->{tags};
+  return $self->_get("/v2/$name/tags/list", 'tags')->{tags};
 }
 
 sub repositories {
@@ -33,7 +33,7 @@ sub repositories {
 }
 
 sub _get {
-  my ($self, $url) = @_;
+  my ($self, $url, $merge) = @_;
   my $port = ($self->{port}) ? ":$self->{port}" : '';
   my $uri = ( $self->{proto} || 'https' ) . "://$self->{host}$port$url";
   my $req = HTTP::Request->new(GET => $uri);
@@ -43,7 +43,17 @@ sub _get {
   my $res = $ua->request($req);
 
   if ( $res->is_success ) {
-    return decode_json($res->content);
+    my $result = decode_json($res->content);
+    if ($res->header('Link')) {
+      die "Do not know what to merge ($url)" if (!$merge);
+      my $link = $res->header('Link');
+      $link =~ s/<(.*)>.*/$1/;
+      my $mresult = $self->_get($link, $merge);
+      if (ref($mresult->{$merge}) eq 'ARRAY' && ref($result->{$merge}) eq 'ARRAY') {
+        push (@{$result->{$merge}}, @{$mresult->{$merge}});
+      }
+    }
+    return $result;
   } elsif ($res->code == 401) {
     $self->_authenticate($res);
   } else {
