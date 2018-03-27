@@ -24,7 +24,7 @@ License:        GPL-2.0-or-later
 Group:          Development/Libraries/Perl
 Url:            https://github.com/M0ses/Net-Docker-Registry
 Source:         %{pname}-%{version}.tar.xz
-#BuildRequires:  
+BuildRequires:  perl(Module::Build)
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
