@@ -26,6 +26,7 @@ Url:            https://github.com/M0ses/Net-Docker-Registry
 Source:         %{pname}-%{version}.tar.xz
 BuildRequires:  perl(Module::Build)
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
+Requires:       perl(LWP::UserAgent)
 
 %description
 
