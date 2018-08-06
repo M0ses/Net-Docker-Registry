@@ -27,6 +27,7 @@ Source:         %{pname}-%{version}.tar.xz
 BuildRequires:  perl(Module::Build)
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Requires:       perl(LWP::UserAgent)
+Requires:       perl(JSON::MaybeXS)
 
 %description
 

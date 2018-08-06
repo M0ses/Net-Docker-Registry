@@ -5,7 +5,7 @@ use warnings;
 
 use LWP::UserAgent;
 use HTTP::Request;
-use JSON::XS;
+use JSON::MaybeXS;
 use URI::Escape;
 use Data::Dumper;
 
@@ -30,6 +30,11 @@ sub list_tags {
 sub repositories {
   my ($self, $name) = @_;
   return $self->catalog()->{repositories};
+}
+
+sub obs_info_json {
+  my ($self, $name) = @_;
+  return $self->_get("/v2/$name/info.json");
 }
 
 sub _get {

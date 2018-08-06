@@ -16,10 +16,10 @@ my $builder = Module::Build->new(
         'Test::More' => '0',
     },
     requires => {
-      'LWP::UserAgent',
-      'HTTP::Request',  
-      'JSON::XS',
-      'URI::Escape',
+      'LWP::UserAgent' => '0',
+      'HTTP::Request' => '0',
+      'JSON::MaybeXS' => '0',
+      'URI::Escape' => '0',
     },
     add_to_cleanup     => [ 'Net-Docker-Registry-*' ],
 );
