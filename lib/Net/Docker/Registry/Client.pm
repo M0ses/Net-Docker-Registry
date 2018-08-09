@@ -8,6 +8,7 @@ use HTTP::Request;
 use JSON::MaybeXS;
 use URI::Escape;
 use Data::Dumper;
+use Carp;
 
 sub new { my ($class,%opts) = @_; return bless \%opts, $class }
 
@@ -42,16 +43,17 @@ sub _get {
   my $port = ($self->{port}) ? ":$self->{port}" : '';
   my $uri = ( $self->{proto} || 'https' ) . "://$self->{host}$port$url";
   my $req = HTTP::Request->new(GET => $uri);
-  $req->authorization_basic($self->{user}, $self->{pass});
+
+  $req->authorization_basic($self->{user}, $self->{pass}) if ($self->{user} && $self->{pass});
 
   my $ua = LWP::UserAgent->new();
   my $res = $ua->request($req);
 
   if ( $res->is_success ) {
     my $result = decode_json($res->content);
-    if ($res->header('Link')) {
+    my $link = $res->header('Link');
+    if ($link) {
       die "Do not know what to merge ($url)" if (!$merge);
-      my $link = $res->header('Link');
       $link =~ s/<(.*)>.*/$1/;
       my $mresult = $self->_get($link, $merge);
       if (ref($mresult->{$merge}) eq 'ARRAY' && ref($result->{$merge}) eq 'ARRAY') {
@@ -62,7 +64,7 @@ sub _get {
   } elsif ($res->code == 401) {
     $self->_authenticate($res);
   } else {
-    die $res->status_line . " ($uri)\n";
+    croak $res->status_line . " ($uri)\n";
   }
 
 }
