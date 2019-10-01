@@ -64,7 +64,15 @@ sub _get {
   } elsif ($res->code == 401) {
     $self->_authenticate($res);
   } else {
-    croak $res->status_line . " ($uri)\n";
+    my $err = $res->status_line . " ($uri)\n";
+    if ($self->{trace}) {
+      $err .= "### REQUEST  ################################################\n";
+      $err .= $req->as_string;
+      $err .= "### RESPONSE ################################################\n";
+      $err .= $res->as_string;
+      $err .= "### END      ################################################\n";
+    }
+    croak $err;
   }
 
 }
