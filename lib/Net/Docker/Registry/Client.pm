@@ -42,7 +42,9 @@ sub _get {
   my ($self, $url, $merge) = @_;
   my $port = ($self->{port}) ? ":$self->{port}" : '';
   my $uri = ( $self->{proto} || 'https' ) . "://$self->{host}$port$url";
-  my $req = HTTP::Request->new(GET => $uri);
+
+  my $req = HTTP::Request->new(GET => $uri); # User-Agent:
+  $req->header("Host"       => $self->{host});
 
   $req->authorization_basic($self->{user}, $self->{pass}) if ($self->{user} && $self->{pass});
 
