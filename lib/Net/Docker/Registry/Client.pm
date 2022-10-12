@@ -38,6 +38,11 @@ sub obs_info_json {
   return $self->_get("/v2/$name/info.json");
 }
 
+sub manifestinfos {
+  my ($self, $name, $distmanifest) = @_;
+  return $self->_get("/v2/$name/manifestinfos/$distmanifest");
+}
+
 sub _get {
   my ($self, $url, $merge) = @_;
   my $port = ($self->{port}) ? ":$self->{port}" : '';
