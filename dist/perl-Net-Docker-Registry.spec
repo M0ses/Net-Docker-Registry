@@ -62,8 +62,3 @@ perl Build.PL --installdirs vendor --destdir %{perl_prefix}
 %doc Changes README README.md
 
 %changelog
--------------------------------------------------------------------
-Fri Feb  6 10:21:16 UTC 2026 - Frank Schreiner <FSchreiner@suse.com>
-
-- Fix spec file for openSUSE 16.0
-
