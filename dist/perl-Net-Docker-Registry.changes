@@ -1,6 +1,5 @@
 -------------------------------------------------------------------
 Fri Feb  6 10:21:16 UTC 2026 - Frank Schreiner <FSchreiner@suse.com>
 
-- Fix spec file for openSUSE 16.0
-
-
+- Update to version 0.1.0
+  * Fix packaging file for openSUSE 16.0
