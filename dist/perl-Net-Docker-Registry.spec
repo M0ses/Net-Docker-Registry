@@ -46,13 +46,13 @@ Requires:       perl(JSON::MaybeXS)
 %build
 perl Build.PL --installdirs vendor --destdir %{perl_prefix}
 ./Build
-%perl_process_packlist
 
 %install
 ./Build install
+%perl_process_packlist
 %perl_gen_filelist
 
-%files
+%files -f %{name}.files
 %defattr(-,root,root)
 %doc Changes README README.md
 
