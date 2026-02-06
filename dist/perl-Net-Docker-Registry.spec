@@ -54,6 +54,9 @@ perl Build.PL --installdirs vendor --destdir %{perl_prefix}
 %perl_process_packlist
 %perl_gen_filelist
 
+%check
+./Build test
+
 %files -f %{name}.files
 %defattr(-,root,root)
 %doc Changes README README.md
