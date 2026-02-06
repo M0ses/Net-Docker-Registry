@@ -39,6 +39,8 @@ Requires:       perl(JSON::MaybeXS)
 %perl_requires
 
 %description
+This package contains Net::Docker::Registry, 
+a perl library to interact with docker registry
 
 %prep
 %setup -q -n %{pname}-%{version}
