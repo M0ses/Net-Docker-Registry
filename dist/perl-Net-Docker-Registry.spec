@@ -24,14 +24,19 @@ License:        GPL-2.0-or-later
 Group:          Development/Libraries/Perl
 Url:            https://github.com/M0ses/Net-Docker-Registry
 Source:         %{pname}-%{version}.tar.xz
+
 BuildRequires:  perl(Module::Build)
 BuildRequires:  perl(HTTP::Request)
 BuildRequires:  perl(JSON::MaybeXS)
 BuildRequires:  perl(LWP::UserAgent)
 BuildRequires:  perl(URI::Escape)
+
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
+
 Requires:       perl(LWP::UserAgent)
 Requires:       perl(JSON::MaybeXS)
+
+%perl_requires
 
 %description
 
@@ -39,17 +44,16 @@ Requires:       perl(JSON::MaybeXS)
 %setup -q -n %{pname}-%{version}
 
 %build
-perl Build.PL --installdirs vendor --destdir %{buildroot}
+perl Build.PL --installdirs vendor --destdir %{perl_prefix}
 ./Build
+%perl_process_packlist
 
 %install
 ./Build install
+%perl_gen_filelist
 
 %files
 %defattr(-,root,root)
 %doc Changes README README.md
-%{perl_vendorlib}/*
-%{_mandir}/man?/*
 
 %changelog
-
