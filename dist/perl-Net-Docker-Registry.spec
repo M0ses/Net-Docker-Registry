@@ -25,6 +25,10 @@ Group:          Development/Libraries/Perl
 Url:            https://github.com/M0ses/Net-Docker-Registry
 Source:         %{pname}-%{version}.tar.xz
 BuildRequires:  perl(Module::Build)
+BuildRequires:  perl(HTTP::Request)
+BuildRequires:  perl(JSON::MaybeXS)
+BuildRequires:  perl(LWP::UserAgent)
+BuildRequires:  perl(URI::Escape)
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Requires:       perl(LWP::UserAgent)
 Requires:       perl(JSON::MaybeXS)
